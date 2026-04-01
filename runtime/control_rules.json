@@ -1,0 +1,107 @@
+[
+  {
+    "key": 1540325629,
+    "intent": {
+      "service": "plc-control",
+      "resources": {
+        "network_properties": [
+          "ultra-reliable",
+          "deterministic"
+        ]
+      },
+      "service_priority": 10,
+      "max_allowed_bandwidth": 1.0,
+      "minimum_guaranteed_bandwidth": 0.5,
+      "match": {
+        "outer_src_mac": "02:00:00:00:50:01",
+        "outer_dst_mac": "02:00:00:00:60:01",
+        "inner_src_mac": "00:00:00:00:00:00",
+        "inner_dst_mac": "00:00:00:00:00:00",
+        "outer_src_ip": "10.1.0.10",
+        "outer_dst_ip": "10.1.0.20",
+        "inner_src_ip": "0.0.0.0",
+        "inner_dst_ip": "0.0.0.0",
+        "outer_src_port": 12345,
+        "outer_dst_port": 502,
+        "inner_src_port": 0,
+        "inner_dst_port": 0,
+        "link_protocol": 2048,
+        "transport_protocol": 6,
+        "vxlan_id": 0,
+        "gtp_id": 0
+      },
+      "action": "STEER",
+      "queue": 1
+    }
+  },
+  {
+    "key": 2607586347,
+    "intent": {
+      "service": "animal-tracking",
+      "resources": {
+        "network_properties": [
+          "best-effort",
+          "monitoring"
+        ]
+      },
+      "service_priority": 4,
+      "max_allowed_bandwidth": 0.5,
+      "minimum_guaranteed_bandwidth": 0.1,
+      "match": {
+        "outer_src_mac": "02:00:00:00:50:01",
+        "outer_dst_mac": "02:00:00:00:60:01",
+        "inner_src_mac": "00:00:00:00:00:00",
+        "inner_dst_mac": "00:00:00:00:00:00",
+        "outer_src_ip": "10.2.0.10",
+        "outer_dst_ip": "10.2.0.20",
+        "inner_src_ip": "0.0.0.0",
+        "inner_dst_ip": "0.0.0.0",
+        "outer_src_port": 12345,
+        "outer_dst_port": 1883,
+        "inner_src_port": 0,
+        "inner_dst_port": 0,
+        "link_protocol": 2048,
+        "transport_protocol": 6,
+        "vxlan_id": 0,
+        "gtp_id": 0
+      },
+      "action": "DROP",
+      "queue": 0
+    }
+  },
+  {
+    "key": 3832220780,
+    "intent": {
+      "service": "agv-video",
+      "resources": {
+        "network_properties": [
+          "low-latency",
+          "high-bandwidth"
+        ]
+      },
+      "service_priority": 9,
+      "max_allowed_bandwidth": 3.0,
+      "minimum_guaranteed_bandwidth": 1.5,
+      "match": {
+        "outer_src_mac": "02:00:00:00:10:01",
+        "outer_dst_mac": "02:00:00:00:20:01",
+        "inner_src_mac": "02:00:00:00:30:01",
+        "inner_dst_mac": "02:00:00:00:40:01",
+        "outer_src_ip": "10.0.0.1",
+        "outer_dst_ip": "10.0.0.2",
+        "inner_src_ip": "172.16.0.1",
+        "inner_dst_ip": "172.16.0.2",
+        "outer_src_port": 40000,
+        "outer_dst_port": 4789,
+        "inner_src_port": 50000,
+        "inner_dst_port": 9000,
+        "link_protocol": 2048,
+        "transport_protocol": 17,
+        "vxlan_id": 101,
+        "gtp_id": 0
+      },
+      "action": "STEER",
+      "queue": 3
+    }
+  }
+]

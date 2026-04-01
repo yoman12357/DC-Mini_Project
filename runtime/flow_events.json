@@ -1,0 +1,42 @@
+[
+  {
+    "timestamp": 1774767110.7551942,
+    "service": "agv-video",
+    "source": "h1",
+    "destination": "h5",
+    "action": "STEER",
+    "queue": 3,
+    "packet_length": 512,
+    "hash_key": 3832220780
+  },
+  {
+    "timestamp": 1774767110.755859,
+    "service": "plc-control",
+    "source": "h2",
+    "destination": "h5",
+    "action": "STEER",
+    "queue": 1,
+    "packet_length": 48,
+    "hash_key": 1540325629
+  },
+  {
+    "timestamp": 1774767110.7646794,
+    "service": "animal-tracking",
+    "source": "h3",
+    "destination": "h5",
+    "action": "DROP",
+    "queue": 0,
+    "packet_length": 96,
+    "hash_key": 2607586347
+  },
+  {
+    "timestamp": 1774767110.7668667,
+    "service": "baggage-robot",
+    "source": "h4",
+    "destination": "h5",
+    "action": "PASS",
+    "queue": 0,
+    "packet_length": 384,
+    "hash_key": 2458101222
+  }
+]
