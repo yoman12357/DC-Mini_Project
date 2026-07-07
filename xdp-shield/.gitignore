@@ -1,0 +1,49 @@
+# Build outputs
+/xdp-shield
+/bpf/*.o
+*.a
+*.so
+
+# Runtime/test artifacts
+/runtime/
+*.pid
+*.sock
+*.log
+*.pcap
+*.pcapng
+core
+core.*
+
+# Downloaded threat datasets; keep directory placeholders in git
+/datasets/blacklist/*
+!/datasets/blacklist/.gitkeep
+/datasets/whitelist/*
+!/datasets/whitelist/.gitkeep
+
+# Local configs and secrets
+*.local
+*.local.*
+*.secret
+*.secrets
+*.key
+*.pem
+*.crt
+
+# Editor/OS noise
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Python/cache noise from helper scripts or local tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
