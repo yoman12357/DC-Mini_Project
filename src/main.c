@@ -9,6 +9,7 @@
 #include "cli.h"
 #include "config.h"
 #include "dataset.h"
+#include "honeypot.h"
 #include "loader.h"
 #include "logger.h"
 #include "rules.h"
@@ -65,6 +66,7 @@ static void print_stats(const struct xs_loader *loader)
 static int run_attached(const struct xs_cli_args *args)
 {
 	struct xs_dataset_loader datasets = {};
+	struct xs_honeypot_monitor honeypot = {};
 	struct xs_logger logger = {};
 	struct xs_rule_manager rules = {};
 	struct xs_config config = {};
@@ -107,6 +109,11 @@ static int run_attached(const struct xs_cli_args *args)
 	err = xs_logger_open(&logger, loader.maps.events_map);
 	if (err)
 		memset(&logger, 0, sizeof(logger));
+	if (config.honeypot.enabled && config.honeypot_ban_on_interaction)
+		xs_honeypot_monitor_open(&honeypot, loader.maps.temp_ban_map,
+					 config.honeypot_log_path,
+					 config.runtime.temp_ban_duration_ns,
+					 true);
 
 	err = attach_firewall(&loader, config.ifname, attach_flags);
 	if (err)
@@ -131,12 +138,14 @@ static int run_attached(const struct xs_cli_args *args)
 			xs_logger_poll(&logger, 1000);
 		else
 			sleep(1);
+		xs_honeypot_monitor_poll(&honeypot);
 		print_stats(&loader);
 	}
 
 	err = detach_firewall(&loader);
 
 out_logger:
+	xs_honeypot_monitor_close(&honeypot);
 	xs_logger_close(&logger);
 	dataset_destroy(&datasets);
 	rules_destroy(&rules);

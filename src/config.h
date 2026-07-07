@@ -17,10 +17,12 @@ struct xs_config {
 	const char *ifname;
 	const char *rules_path;
 	const char *honeypot_ifname;
+	const char *honeypot_log_path;
 	char object_path_buf[XS_CONFIG_PATH_LEN];
 	char ifname_buf[XS_CONFIG_IFNAME_LEN];
 	char rules_path_buf[XS_CONFIG_PATH_LEN];
 	char honeypot_ifname_buf[XS_CONFIG_IFNAME_LEN];
+	char honeypot_log_path_buf[XS_CONFIG_PATH_LEN];
 	struct xdp_shield_runtime_config runtime;
 	struct xdp_shield_honeypot_config honeypot;
 	__u16 canary_ports[XS_CONFIG_CANARY_PORTS_MAX];
@@ -28,6 +30,7 @@ struct xs_config {
 	__u32 xdp_flags;
 	__u32 detach_flags;
 	bool attach_skb_mode;
+	bool honeypot_ban_on_interaction;
 	uint32_t log_sample_rate;
 	uint32_t default_ban_seconds;
 };

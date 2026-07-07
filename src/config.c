@@ -95,12 +95,17 @@ int xs_config_defaults(struct xs_config *config)
 			   "bpf/firewall.bpf.o");
 	copy_config_string(config->rules_path_buf, sizeof(config->rules_path_buf),
 			   "rules.conf");
+	copy_config_string(config->honeypot_log_path_buf,
+			   sizeof(config->honeypot_log_path_buf),
+			   "/home/cowrie/xdp-cowrie/var/log/cowrie/cowrie.json");
 	config->object_path = config->object_path_buf;
 	config->rules_path = config->rules_path_buf;
+	config->honeypot_log_path = config->honeypot_log_path_buf;
 	xs_config_runtime_defaults(&config->runtime);
 	config->xdp_flags = XDP_SHIELD_ATTACH_FLAGS;
 	config->detach_flags = XDP_SHIELD_DETACH_FLAGS;
 	config->attach_skb_mode = false;
+	config->honeypot_ban_on_interaction = true;
 	config->log_sample_rate = 1;
 	config->default_ban_seconds = 300;
 	config->honeypot.redirect_tcp = 1;
@@ -173,6 +178,13 @@ int xs_config_load(struct xs_config *config, const char *path)
 			err = copy_config_string(config->honeypot_ifname_buf,
 						 sizeof(config->honeypot_ifname_buf), value);
 			config->honeypot_ifname = config->honeypot_ifname_buf;
+		} else if (!strcmp(key, "honeypot_log_path")) {
+			err = copy_config_string(config->honeypot_log_path_buf,
+						 sizeof(config->honeypot_log_path_buf), value);
+			config->honeypot_log_path = config->honeypot_log_path_buf;
+		} else if (!strcmp(key, "honeypot_ban_on_interaction")) {
+			err = parse_bool_value(value,
+					       &config->honeypot_ban_on_interaction);
 		} else if (!strcmp(key, "honeypot_ip")) {
 			if (inet_pton(AF_INET, value,
 				      &config->honeypot.honeypot_ipv4) != 1)

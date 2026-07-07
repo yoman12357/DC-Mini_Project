@@ -484,6 +484,14 @@ int xdp_shield_firewall(struct xdp_md *ctx)
 		return XDP_DROP;
 	}
 
+	run_detection_engine(&pkt, &detection);
+	if (detection.result == XDP_SHIELD_DETECTION_MALICIOUS) {
+		STATS_INC(stats, temporary_ban_hits);
+		STATS_INC(stats, packets_dropped);
+		emit_event(&pkt, XDP_SHIELD_EVENT_TEMP_BAN, detection.reason);
+		return XDP_DROP;
+	}
+
 	if (honeypot_config && honeypot_config->enabled &&
 	    ctx->ingress_ifindex == honeypot_config->external_ifindex) {
 		int trapped = source_is_trapped(&pkt, now_ns);
@@ -508,14 +516,6 @@ int xdp_shield_firewall(struct xdp_md *ctx)
 				return result;
 			}
 		}
-	}
-
-	run_detection_engine(&pkt, &detection);
-	if (detection.result == XDP_SHIELD_DETECTION_MALICIOUS) {
-		STATS_INC(stats, temporary_ban_hits);
-		STATS_INC(stats, packets_dropped);
-		emit_event(&pkt, XDP_SHIELD_EVENT_TEMP_BAN, detection.reason);
-		return XDP_DROP;
 	}
 
 	rule_result = check_rules(&pkt);
