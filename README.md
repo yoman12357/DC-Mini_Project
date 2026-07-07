@@ -1,14 +1,15 @@
 # xdp-shield
 
 xdp-shield is an XDP-based packet filtering and threat defense project for Linux.
-It combines an eBPF firewall with runtime attack detection, IP reputation feeds, dynamic rule management, and a honeypot redirect mode for suspicious traffic.
+It combines an eBPF firewall with runtime attack detection, IP reputation feeds, dynamic rule management, and honeypot deception for suspicious traffic.
 
 ## Features
 
 - eBPF/XDP firewall for high-performance packet filtering
 - Rule engine with allow/drop policies and priority-based matching
 - Runtime thresholds for SYN flood, UDP flood, ICMP flood, port scan, and connection rate detection
-- Honeypot redirect support using XDP devmap forwarding
+- Canary port deception with honeypot redirect for suspicious sources
+- Cowrie-compatible honeypot integration via redirected canary hits and log monitoring
 - Local dataset loader for reputation feeds and blacklists
 - Systemd service support for deployment
 
