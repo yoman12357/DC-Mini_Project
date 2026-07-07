@@ -1,0 +1,21 @@
+[Unit]
+Description=xdp-shield XDP firewall
+Documentation=man:xdp-shield(8)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/xdp-shield/xdp-shield.env
+WorkingDirectory=/usr/local/lib/xdp-shield
+ExecStart=/usr/local/sbin/xdp-shield attach ${XDP_SHIELD_IFACE} --mode ${XDP_SHIELD_MODE}
+ExecStop=/usr/local/sbin/xdp-shield detach ${XDP_SHIELD_IFACE} --mode ${XDP_SHIELD_MODE}
+Restart=on-failure
+RestartSec=2s
+LimitMEMLOCK=infinity
+CapabilityBoundingSet=CAP_BPF CAP_NET_ADMIN CAP_NET_RAW CAP_SYS_RESOURCE CAP_PERFMON
+AmbientCapabilities=CAP_BPF CAP_NET_ADMIN CAP_NET_RAW CAP_SYS_RESOURCE CAP_PERFMON
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=multi-user.target
