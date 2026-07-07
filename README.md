@@ -6,13 +6,10 @@ It combines an eBPF firewall with runtime attack detection, IP reputation feeds,
 ## Features
 
 - eBPF/XDP firewall for high-performance packet filtering
-- Support for `generic` and `native` XDP attach modes
 - Rule engine with allow/drop policies and priority-based matching
 - Runtime thresholds for SYN flood, UDP flood, ICMP flood, port scan, and connection rate detection
-- Temporary bans for suspicious sources
 - Honeypot redirect support using XDP devmap forwarding
 - Local dataset loader for reputation feeds and blacklists
-- Configurable via file and CLI commands
 - Systemd service support for deployment
 
 ## Repository layout
@@ -58,12 +55,7 @@ The built binary is `./xdp-shield`.
 sudo ./xdp-shield attach <interface>
 ```
 
-Optionally choose XDP mode:
 
-```sh
-sudo ./xdp-shield attach <interface> --mode generic
-sudo ./xdp-shield attach <interface> --mode native
-```
 
 ### Detach XDP firewall
 
@@ -71,12 +63,6 @@ sudo ./xdp-shield attach <interface> --mode native
 sudo ./xdp-shield detach <interface>
 ```
 
-### Backward-compatible firewall command
-
-```sh
-sudo ./xdp-shield firewall attach <interface>
-sudo ./xdp-shield firewall detach <interface>
-```
 
 ### Manage rules
 
@@ -114,11 +100,7 @@ sudo ./xdp-shield rule clear
 
 ### Config commands
 
-Load config file into control plane:
 
-```sh
-sudo ./xdp-shield config load /path/to/xdp-shield.conf
-```
 
 Show current config defaults:
 
@@ -132,43 +114,13 @@ Set a pinned runtime config option:
 sudo ./xdp-shield config set <name> <value>
 ```
 
-### Help and version
+### Help
 
 ```sh
 ./xdp-shield help
-./xdp-shield version
 ```
 
-## Configuration
 
-Default config values are loaded from `xdp-shield.conf` when the service starts.
-The runtime config supports keys such as:
-
-- `interface` / `ifname`
-- `object_path`
-- `rules_path`
-- `xdp_mode` (`generic` or `native`)
-- `attach_skb_mode`
-- `log_sample_rate`
-- `default_ban_seconds`
-- `syn_threshold`
-- `udp_threshold`
-- `icmp_threshold`
-- `port_scan_threshold`
-- `connection_threshold`
-- `window_ms`
-- `ban_seconds`
-- `honeypot_enabled`
-- `honeypot_ifname`
-- `honeypot_ip`
-- `honeypot_mac`
-- `honeypot_port`
-- `honeypot_redirect_seconds`
-- `honeypot_log_path`
-- `honeypot_ban_on_interaction`
-- `canary_ports`
-
-See `xdp-shield.conf` for an example configuration.
 
 ## Rule format
 
@@ -219,13 +171,4 @@ sudo make install-systemd
 
 The systemd unit loads environment values from `/etc/xdp-shield/xdp-shield.env` and runs `xdp-shield attach` on startup.
 
-## Notes
 
-- Root privileges are required to attach/detach XDP programs.
-- The project expects a Linux environment with XDP and libbpf support.
-- `xdp-shield` can run directly from the repo after `make all`.
-
-## License
-
-This repository does not include an explicit license file.
-Add a license if you plan to redistribute or publish.
